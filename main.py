@@ -61,8 +61,10 @@ def run_jarvis():
         google = search1.summary(search1, 2)
         talk(google)
         print(google)
-    elif 'Who' or 'What' or 'Where' in command:
-        person = command.replace('who' or 'what' or 'where', '')
+    elif 'who' in command or 'what' in command or 'where' in command:
+        person = command.replace('who', '')
+        person = person.replace('what', '')
+        person = person.replace('where', '')
         info = wikipedia.summary(person, 2)
         talk(info)
         print(info)
