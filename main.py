@@ -24,11 +24,10 @@ def take_command():
             command = listener.recognize_google(voice)
             command = command.lower()
             if 'jarvis' in command:
-                command = command.replace('Jarvis', '')
-                talk(command)
-                return command
-    except:
-        pass
+                command = command.replace('jarvis', '')
+            return command
+    except Exception:
+        return ""
 
 
 def wishme():
@@ -45,6 +44,8 @@ def wishme():
 
 def run_jarvis():
     command = take_command()
+    if not command:
+        return
     print(command)
     if 'play' in command:
         song = command.replace('play', '')
@@ -58,15 +59,17 @@ def run_jarvis():
     elif 'search' in command:
         search1 = command.replace('search', '')
         pywhatkit.search(command)
-        google = search1.summary(search1, 2)
+        google = wikipedia.summary(search1, sentences=2)
         talk(google)
         print(google)
-    elif 'Who' or 'What' or 'Where' in command:
-        person = command.replace('who' or 'what' or 'where', '')
-        info = wikipedia.summary(person, 2)
+    elif any(k in command for k in ['who', 'what', 'where']):
+        person = command
+        for kw in ['who', 'what', 'where']:
+            person = person.replace(kw, '')
+        info = wikipedia.summary(person.strip(), sentences=2)
         talk(info)
         print(info)
-    elif 'funny' or 'joke' or 'sarcastic' or 'silly' or 'bored' in command:
+    elif any(k in command for k in ['funny', 'joke', 'sarcastic', 'silly', 'bored']):
         talk(pyjokes.get_joke())
         print(pyjokes.get_joke())
     else:
