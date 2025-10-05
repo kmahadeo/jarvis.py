@@ -12,11 +12,22 @@ engine.setProperty('voice', voices[0].id)
 
 
 def talk(text):
+    """Speak text aloud using the configured TTS engine.
+
+    Args:
+        text (str): Phrase to be spoken.
+    """
     engine.say(text)
     engine.runAndWait()
 
 
 def take_command():
+    """Capture a voice command from the microphone.
+
+    Returns:
+        str | None: The recognized command without the wake word or
+        ``None`` if recognition fails.
+    """
     try:
         with sr.Microphone() as source:
             print('Listening...')
@@ -32,6 +43,7 @@ def take_command():
 
 
 def wishme():
+    """Speak a greeting based on the current time of day."""
     hour = int(datetime.datetime.now().hour)
     if 0 <= hour < 12:
         pyttsx3.speak("Good Morning! How can I help you?")
@@ -44,6 +56,7 @@ def wishme():
 
 
 def run_jarvis():
+    """Execute actions based on the spoken command."""
     command = take_command()
     print(command)
     if 'play' in command:
